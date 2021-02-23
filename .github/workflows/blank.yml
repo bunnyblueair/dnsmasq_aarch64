@@ -32,12 +32,12 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: checkout
-        run: git clone http://thekelleys.org.uk/git/dnsmasq.git
+        run: git clone http://thekelleys.org.uk/git/dnsmasq.git dnsmasq.git
       - name: prepare
         run: sudo apt update && sudo apt install gcc-aarch64-linux-gnu
       - name: patching
         run: |
-             cd dnsmasq 
+             cd dnsmasq.git 
              sed -i '/#include "dnsmasq.h"/a __asm__(".symver fcntl64,fcntl@GLIBC_2.17");' src/network.c
              sed -i '/#include "dnsmasq.h"/a __asm__(".symver fcntl64,fcntl@GLIBC_2.17");' src/netlink.c
              sed -i '/#include "dnsmasq.h"/a __asm__(".symver fcntl64,fcntl@GLIBC_2.17");' src/dnsmasq.c
@@ -46,7 +46,7 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: build
-        run: cd dnsmasq &&make COPTS="-DHAVE_IPSET -DHAVE_BROKEN_RTC -DNO_AUTH -DNO_INOTIFY -DNO_DUMPFILE -DNO_LOOP" &&cp src/dnsmasq ../dnsmasq
+        run: cd dnsmasq.git &&make COPTS="-DHAVE_IPSET -DHAVE_BROKEN_RTC -DNO_AUTH -DNO_INOTIFY -DNO_DUMPFILE -DNO_LOOP" &&cp src/dnsmasq ../dnsmasq
         
       - name: dist
         run: git status &&git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com" &&  git config --local user.name "github-actions[bot]" &&git add dnsmasq &&git commit -m "update by bot"
