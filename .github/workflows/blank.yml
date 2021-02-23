@@ -29,7 +29,7 @@ jobs:
       - name: checkout
         run: git clone http://thekelleys.org.uk/git/dnsmasq.git
       - name: prepare
-        run: apt install gcc-aarch64-linux-gnu
+        run: apt install aarch64-linux-gnu-gcc
 
       # Runs a set of commands using the runners shell
       - name: build
