@@ -41,8 +41,8 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: build
-        run:  ｜export CC=aarch64-linux-gnu-gcc
-               export CXX=aarch64-linux-gnu-g++
-               export LD=aarch64-linux-gnu-ld
-               export AR=aarch64-linux-gnu-ar
+        run:  ｜CC=aarch64-linux-gnu-gcc
+                CXX=aarch64-linux-gnu-g++
+                LD=aarch64-linux-gnu-ld
+                AR=aarch64-linux-gnu-ar
                cd dnsmasq &&make COPTS="-DHAVE_IPSET -DHAVE_BROKEN_RTC -DNO_AUTH -DNO_INOTIFY -DNO_DUMPFILE -DNO_LOOP" 
