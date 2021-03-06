@@ -42,6 +42,7 @@ jobs:
              sed -i '/#include "dnsmasq.h"/a __asm__(".symver fcntl64,fcntl@GLIBC_2.17");' src/netlink.c
              sed -i '/#include "dnsmasq.h"/a __asm__(".symver fcntl64,fcntl@GLIBC_2.17");' src/dnsmasq.c
              sed -i '/#include "dnsmasq.h"/a __asm__(".symver fcntl64,fcntl@GLIBC_2.17");' src/helper.c
+             sed -i '/#include "dnsmasq.h"/a __asm__(".symver fcntl64,fcntl@GLIBC_2.17");' src/tables.c
              cd ..
 
       # Runs a set of commands using the runners shell
