@@ -38,6 +38,7 @@ jobs:
       - name: patching
         run: |
              cd dnsmasq.git 
+             sed -i '/#include <sys/stat.h>/a __asm__(".symver fcntl64,fcntl@GLIBC_2.17");' src/dnsmasq.h
              sed -i '/#include <fcntl.h>/a __asm__(".symver fcntl64,fcntl@GLIBC_2.17");' src/dnsmasq.h
              sed -i '/#include <fcntl.h>/a __asm__(".symver fcntl64,fcntl@GLIBC_2.17");' src/tables.c
              sed -i '/int main /a __asm__(".symver fcntl64,fcntl@GLIBC_2.17");' src/dnsmasq.c
