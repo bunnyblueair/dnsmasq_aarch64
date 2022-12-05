@@ -16,7 +16,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     env:
       CC: aarch64-linux-gnu-gcc
       CXX: aarch64-linux-gnu-g++
@@ -39,7 +39,7 @@ jobs:
         run: |
              cd dnsmasq.git 
 
-             sed -i '/#include <sys\/stat.h>/a __asm__(".symver stat64@GLIBC_2.17");' src/dnsmasq.h
+             sed -i '/#include <sys\/stat.h>/a __asm__(".symver stat64,__xstat64@GLIBC_2.17");' src/dnsmasq.h
              sed -i '/#include <fcntl.h>/a __asm__(".symver fcntl64,fcntl@GLIBC_2.17");' src/dnsmasq.h
              sed -i '/#include <fcntl.h>/a __asm__(".symver fcntl64,fcntl@GLIBC_2.17");' src/tables.c
        
