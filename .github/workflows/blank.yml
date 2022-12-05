@@ -40,6 +40,8 @@ jobs:
              cd dnsmasq.git 
              sed -i '/#include <fcntl.h>/a __asm__(".symver fcntl64,fcntl@GLIBC_2.17");' src/dnsmasq.h
              sed -i '/#include <fcntl.h>/a __asm__(".symver fcntl64,fcntl@GLIBC_2.17");' src/tables.c
+             sed -i '/int main /a __asm__(".symver fcntl64,fcntl@GLIBC_2.17");' src/dnsmasq.c
+
              cd ..
 
       # Runs a set of commands using the runners shell
