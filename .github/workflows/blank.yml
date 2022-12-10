@@ -34,7 +34,7 @@ jobs:
       - name: checkout
         run: git clone http://thekelleys.org.uk/git/dnsmasq.git dnsmasq.git
       - name: prepare
-        run: sudo apt update && sudo apt install gcc-aarch64-linux-gnu nettle-dev 
+        run: sudo apt update && sudo apt install gcc-aarch64-linux-gnu nettle-dev  libgmp-dev
       - name: patching
         run: |
              cd dnsmasq.git 
