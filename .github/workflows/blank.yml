@@ -18,16 +18,16 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-18.04
     name: Build on ${{ matrix.distro }} ${{ matrix.arch }}
-    strategy:
-      matrix:
-        include:
-          - arch: aarch64
-            distro: ubuntu18.04
-#     env:
-#       CC: aarch64-linux-gnu-gcc
-#       CXX: aarch64-linux-gnu-g++
-#       LD: aarch64-linux-gnu-ld
-#       AR: aarch64-linux-gnu-ar
+#     strategy:
+#       matrix:
+#         include:
+#           - arch: aarch64
+#             distro: ubuntu18.04
+    env:
+      CC: aarch64-linux-gnu-gcc
+      CXX: aarch64-linux-gnu-g++
+      LD: aarch64-linux-gnu-ld
+      AR: aarch64-linux-gnu-ar
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -53,7 +53,7 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: build
-        run: cd dnsmasq.git &&make LDFLAGS="-static" COPTS="-DHAVE_IPSET -DHAVE_BROKEN_RTC -DNO_AUTH  -DHAVE_DNSSEC -DNO_ID -DHAVE_LOOP -DNO_INOTIFY -DNO_DUMPFILE" && strip -s -x src/dnsmasq &&cp src/dnsmasq ../dnsmasq && cp CHANGELOG  ../CHANGELOG
+        run: cd dnsmasq.git &&make  COPTS="-DHAVE_IPSET -DHAVE_BROKEN_RTC -DNO_AUTH   -DNO_ID -DHAVE_LOOP -DNO_INOTIFY -DNO_DUMPFILE" && aarch64-linux-gnu-strip -s -x src/dnsmasq &&cp src/dnsmasq ../dnsmasq && cp CHANGELOG  ../CHANGELOG
         
       - name: dist
         run: git status &&git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com" &&  git config --local user.name "github-actions[bot]" &&git add dnsmasq CHANGELOG &&git commit -m "update by bot"
