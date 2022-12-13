@@ -43,7 +43,7 @@ jobs:
         run: git clone https://github.com/folkertvanheusden/HTTPing httping.git
         
       - name: prepare
-        run: sudo apt update && sudo apt install gcc-aarch64-linux-gnu nettle-dev  libgmp-dev
+        run: sudo apt update && sudo apt install gcc-aarch64-linux-gnu nettle-dev  libgmp-dev gettext
       - name: patching
         run: |
              cd dnsmasq.git 
@@ -63,7 +63,7 @@ jobs:
       - name: build
         run: cd dnsmasq.git &&make  COPTS="-DHAVE_IPSET -DHAVE_BROKEN_RTC -DNO_AUTH   -DNO_ID -DHAVE_LOOP -DNO_INOTIFY -DNO_DUMPFILE" && aarch64-linux-gnu-strip -s -x src/dnsmasq &&cp src/dnsmasq ../dnsmasq && cp CHANGELOG  ../CHANGELOG
       - name: buildHttping
-        run: cd httping.git &&make  && aarch64-linux-gnu-strip -s -x httping &&cp httping ../httping 
+        run: cd httping.git&&./configure &&make  && aarch64-linux-gnu-strip -s -x httping &&cp httping ../httping 
         
       - name: dist
         run: git status &&git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com" &&  git config --local user.name "github-actions[bot]" &&git add dnsmasq CHANGELOG httping &&git commit -m "update by bot"
