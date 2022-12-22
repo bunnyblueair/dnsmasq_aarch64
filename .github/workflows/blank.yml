@@ -43,7 +43,7 @@ jobs:
         run: git clone https://github.com/folkertvanheusden/HTTPing httping.git
         
       - name: prepare
-        run: sudo apt update && sudo apt install gcc-aarch64-linux-gnu nettle-dev  libgmp-dev gettext
+        run: sudo apt update && sudo apt install gcc-aarch64-linux-gnu nettle-dev  libgmp-dev gettext autoconf pkg-config
       - name: patching
         run: |
              cd dnsmasq.git 
@@ -60,6 +60,8 @@ jobs:
 
  
       # Runs a set of commands using the runners shell
+      - name: loadFile
+        run:  unzip nettle-3.8.1.zip && cd nettle-nettle_3.8.1_release_20220727 &&./.bootstrap && ./configure --enable-mini-gmp  --host=aarch64-linux-gnu &&make &&sudo make install && cd ..
       - name: build
         run: cd dnsmasq.git &&make  COPTS="-DHAVE_IPSET -DHAVE_BROKEN_RTC -DNO_AUTH   -DNO_ID -DHAVE_LOOP -DNO_INOTIFY -DNO_DUMPFILE" && aarch64-linux-gnu-strip -s -x src/dnsmasq &&cp src/dnsmasq ../dnsmasq && cp CHANGELOG  ../CHANGELOG
       - name: buildHttping
