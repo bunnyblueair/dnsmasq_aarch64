@@ -44,18 +44,17 @@ jobs:
         
       - name: prepare
         run: sudo apt update && sudo apt install gcc-aarch64-linux-gnu texlive  libgmp-dev gettext autoconf pkg-config
-      - name: patching
+      - name: patching 
         run: |
              cd dnsmasq.git 
 
              sed -i '/#include <sys\/stat.h>/a __asm__(".symver stat64,__xstat64@GLIBC_2.17");' src/dnsmasq.h
              sed -i '/#include <fcntl.h>/a __asm__(".symver fcntl64,fcntl@GLIBC_2.17");' src/dnsmasq.h
              sed -i '/#include <fcntl.h>/a __asm__(".symver fcntl64,fcntl@GLIBC_2.17");' src/tables.c
-             sed -i '/files must be readable/a if (stat(path, &buf) == -1){\nif(strcmp("/jffs/configs/dnsmasq.d/custom.conf",path)==0){\ncontinue;\n}\n}' src/option.c src/option.c
        
              cd ..
              
-      - name: patching-ttping
+      - name: patching-httping
         run: |
              cp httpmake httping.git/Makefile 
 
