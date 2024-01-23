@@ -64,8 +64,8 @@ jobs:
         run:  unzip nettle_3.9.1.zip && cd nettle_3.9.1 &&./.bootstrap && ./configure --enable-mini-gmp --disable-documentation --host=aarch64-linux-gnu &&make &&sudo make install && cd ..
       - name: build
         run: chmod +x build.sh &&./build.sh
-      - name: buildHttping
-        run:  cp httping.config httping.git/config.h &&cd httping.git &&cmake &&make && aarch64-linux-gnu-strip -s -x httping &&cp httping ../httping 
+      # - name: buildHttping
+      #   run:  cp httping.config httping.git/config.h &&cd httping.git &&cmake &&make && aarch64-linux-gnu-strip -s -x httping &&cp httping ../httping 
         
       - name: dist
         run: git status &&git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com" &&  git config --local user.name "github-actions[bot]" &&git add dnsmasq CHANGELOG httping &&git commit -m "update by bot"
