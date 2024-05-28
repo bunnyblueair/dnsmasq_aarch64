@@ -43,7 +43,7 @@ jobs:
         run: git clone https://github.com/folkertvanheusden/HTTPing httping.git
         
       - name: prepare
-        run: sudo apt update && sudo apt install gcc-aarch64-linux-gnu texlive  libgmp-dev gettext autoconf pkg-config
+        run: sudo apt update && sudo apt install gcc-aarch64-linux-gnu texlive libssl-dev  libgmp-dev gettext autoconf pkg-config
       - name: patching 
         run: |
              cd dnsmasq.git 
