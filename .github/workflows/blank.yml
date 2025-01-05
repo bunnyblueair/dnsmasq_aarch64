@@ -61,7 +61,7 @@ jobs:
  
       # Runs a set of commands using the runners shell
       - name: loadFile
-        run:  unzip nettle_3.9.1.zip && cd nettle_3.9.1 &&./.bootstrap && ./configure --enable-mini-gmp --disable-documentation --host=aarch64-linux-gnu &&make &&sudo make install && cd ..
+        run:  unzip nettle-nettle_3.10.1_release_20241230.zip && cd nettle-nettle_3.10.1_release_20241230 &&./.bootstrap && ./configure --enable-mini-gmp --disable-documentation --host=aarch64-linux-gnu &&make &&sudo make install && cd ..
       - name: build
         run: chmod +x build.sh &&./build.sh
       # - name: buildHttping
