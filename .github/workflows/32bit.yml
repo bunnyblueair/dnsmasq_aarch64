@@ -39,8 +39,8 @@ jobs:
       # Runs a single command using the runners shell
       - name: prepare
         run: sudo apt update && sudo apt install gcc-arm-linux-gnueabi texlive libssl-dev  libgmp-dev gettext autoconf pkg-config
-      - name: openssl
-        run: wget https://www.openssl.org/source/openssl-1.1.1w.tar.gz&&tar -xzvf openssl-1.1.1w.tar.gz&&cd openssl-1.1.1w && ./Configure linux-armv4  --prefix=$HOME/local  &&make && make install && cd ..
+    #  - name: openssl
+     #   run: wget https://www.openssl.org/source/openssl-1.1.1w.tar.gz&&tar -xzvf openssl-1.1.1w.tar.gz&&cd openssl-1.1.1w && ./Configure linux-armv4  --prefix=$HOME/local  &&make && make install && cd ..
       - name: checkoutDnsmasq
         run: git clone http://thekelleys.org.uk/git/dnsmasq.git dnsmasq.git
       - name: checkoutHttping
@@ -51,7 +51,7 @@ jobs:
              cp httping_CMakeLists.txt httping.git/CMakeLists.txt 
 
       - name: buildHttping
-        run:   cd httping.git&& mkdir build &&cd build &&cmake .. -DNO_SSL=1 &&make  -DNO_SSL=1 && arm-linux-gnueabi-strip -s -x httping &&cp httping ../../httping 
+        run:   cd httping.git&& mkdir build &&cd build &&cmake -DNO_SSL=1 ..  &&make  && arm-linux-gnueabi-strip -s -x httping &&cp httping ../../httping 
         
       - name: dist
         run: git status &&git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com" &&  git config --local user.name "github-actions[bot]" &&git add dnsmasq CHANGELOG httping &&git commit -m "update by bot"
