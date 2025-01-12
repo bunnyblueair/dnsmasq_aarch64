@@ -38,7 +38,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: prepare
-        run: sudo apt update && sudo apt install arm-linux-gnueabihf-gcc texlive libssl-dev  libgmp-dev gettext autoconf pkg-config
+        run: sudo apt update && sudo apt install gcc-arm-linux-gnueabihf texlive libssl-dev  libgmp-dev gettext autoconf pkg-config
       - name: openssl
         run: wget https://www.openssl.org/source/openssl-1.1.1w.tar.gz&&tar -xzvf openssl-1.1.1w.tar.gz&&cd openssl-1.1.1w && ./Configure linux-armv4  --prefix=$HOME/local  &&make && make install && cd ..
       - name: checkoutDnsmasq
