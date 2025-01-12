@@ -37,6 +37,8 @@ jobs:
          ref: master
 
       # Runs a single command using the runners shell
+      - name: prepare
+        run: sudo apt update && sudo apt install gcc-aarch64-linux-gnu texlive libssl-dev  libgmp-dev gettext autoconf pkg-config
       - name: openssl
         run: wget https://www.openssl.org/source/openssl-1.1.1t.tar.gz&&tar -xzvf openssl-1.1.1t.tar.gz&&cd openssl-1.1.1t &&./Configure linux-aarch64  --cross-compile-prefix=aarch64-linux-gnu- &&make && make install && cd ..
       - name: checkoutDnsmasq
@@ -44,8 +46,7 @@ jobs:
       - name: checkoutHttping
         run: git clone https://github.com/folkertvanheusden/HTTPing httping.git
         
-      - name: prepare
-        run: sudo apt update && sudo apt install gcc-aarch64-linux-gnu texlive libssl-dev  libgmp-dev gettext autoconf pkg-config
+     
       - name: patching 
         run: |
              cd dnsmasq.git 
