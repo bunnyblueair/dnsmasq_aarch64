@@ -39,12 +39,9 @@ jobs:
       # Runs a single command using the runners shell
       - name: prepare
         run: sudo apt update && sudo apt install gcc-aarch64-linux-gnu texlive libssl-dev  libgmp-dev gettext autoconf pkg-config
-      - name: openssl
-        run: wget https://www.openssl.org/source/openssl-1.1.1t.tar.gz&&tar -xzvf openssl-1.1.1t.tar.gz&&cd openssl-1.1.1t &&./Configure linux-aarch64  --prefix=$HOME/local  &&make && make install && cd ..
       - name: checkoutDnsmasq
         run: git clone http://thekelleys.org.uk/git/dnsmasq.git dnsmasq.git
-      - name: checkoutHttping
-        run: git clone https://github.com/folkertvanheusden/HTTPing httping.git
+
         
      
       - name: patching 
@@ -57,9 +54,7 @@ jobs:
        
              cd ..
              
-      - name: patching-httping
-        run: |
-             cp httping_CMakeLists.txt httping.git/CMakeLists.txt 
+
 
  
       # Runs a set of commands using the runners shell
@@ -67,9 +62,7 @@ jobs:
         run:  unzip nettle-nettle_3.10.1_release_20241230.zip && cd nettle-nettle_3.10.1_release_20241230 &&./.bootstrap && ./configure --enable-mini-gmp --disable-documentation --host=aarch64-linux-gnu &&make &&sudo make install && cd ..
       - name: build
         run: chmod +x build.sh &&./build.sh
-      - name: buildHttping
-        run:   cd httping.git&& mkdir build &&cd build &&cmake .. &&make && aarch64-linux-gnu-strip -s -x httping &&cp httping ../../httping 
-        
+
       - name: dist
         run: git status &&git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com" &&  git config --local user.name "github-actions[bot]" &&git add dnsmasq CHANGELOG httping &&git commit -m "update by bot"
       - uses: ad-m/github-push-action@master
