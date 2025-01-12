@@ -40,7 +40,7 @@ jobs:
       - name: prepare
         run: sudo apt update && sudo apt install gcc-aarch64-linux-gnu texlive libssl-dev  libgmp-dev gettext autoconf pkg-config
       - name: openssl
-        run: wget https://www.openssl.org/source/openssl-1.1.1t.tar.gz&&tar -xzvf openssl-1.1.1t.tar.gz&&cd openssl-1.1.1t &&./Configure linux-aarch64  --cross-compile-prefix=aarch64-linux-gnu- &&make && make install && cd ..
+        run: wget https://www.openssl.org/source/openssl-1.1.1t.tar.gz&&tar -xzvf openssl-1.1.1t.tar.gz&&cd openssl-1.1.1t &&./Configure linux-aarch64   &&make && make install && cd ..
       - name: checkoutDnsmasq
         run: git clone http://thekelleys.org.uk/git/dnsmasq.git dnsmasq.git
       - name: checkoutHttping
