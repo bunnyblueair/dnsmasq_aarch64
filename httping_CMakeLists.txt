@@ -36,18 +36,17 @@ target_include_directories(httping PUBLIC ${FFTW3_INCLUDE_DIRS})
 target_compile_options(httping PUBLIC ${FFTW3_CFLAGS_OTHER})
 endif ()
 
-# 设置 OpenSSL 头文件和库文件的路径
 set(OPENSSL_ROOT_DIR "$ENV{HOME}/local")
-set(OPENSSL_LIBRARIES "$ENV{HOME}/local/lib")
 set(OPENSSL_INCLUDE_DIR "$ENV{HOME}/local/include")
+set(OPENSSL_LIBRARIES "$ENV{HOME}/local/lib")
 
-# 查找 OpenSSL 库
-find_package(OpenSSL REQUIRED)
-
-# 指定静态库链接
+# 在查找 OpenSSL 之前指定静态库选项
 set(OPENSSL_USE_STATIC_LIBS TRUE)
 
-# 添加目标链接 OpenSSL 静态库
+# 查找 OpenSSL
+find_package(OpenSSL REQUIRED)
+
+# 链接静态库
 target_link_libraries(httping OpenSSL::SSL OpenSSL::Crypto)
 
 
