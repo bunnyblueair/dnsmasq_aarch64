@@ -54,6 +54,7 @@ jobs:
              sed -i '/#include <math.h>/a __asm__(".symver pow,pow@GLIBC_2.4");' main.c
              sed -i '/#include <math.h>/a __asm__(".symver pow,pow@GLIBC_2.4");' nc.c
              sed -i '/#include <math.h>/a __asm__(".symver pow,pow@GLIBC_2.4");' gen.c
+             cat gen.c
        
              cd ..
                
