@@ -57,9 +57,9 @@ jobs:
        
              cd ..
              
-      # - name: patching-httping
-      #   run: |
-      #        cp httpmake httping.git/Makefile 
+      - name: patching-httping
+        run: |
+             cp httping_CMakeLists.txt httping.git/CMakeLists.txt 
 
  
       # Runs a set of commands using the runners shell
