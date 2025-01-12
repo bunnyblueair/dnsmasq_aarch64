@@ -24,10 +24,10 @@ jobs:
 #           - arch: aarch64
 #             distro: ubuntu18.04
     env:
-      CC: aarch64-linux-gnu-gcc
-      CXX: aarch64-linux-gnu-g++
-      LD: aarch64-linux-gnu-ld
-      AR: aarch64-linux-gnu-ar
+      CC: arm-linux-gnueabi-gcc
+      CXX: arm-linux-gnueabi-g++
+      LD: arm-linux-gnueabi-ld
+      AR: arm-linux-gnueabi-ar
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
