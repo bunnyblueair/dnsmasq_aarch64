@@ -45,12 +45,12 @@ jobs:
         run: git clone http://thekelleys.org.uk/git/dnsmasq.git dnsmasq.git
       - name: checkoutHttping
         run: git clone https://github.com/folkertvanheusden/HTTPing httping.git
-      - name: patching 
+      - name: patching_glibc 
         run: |
              cd httping.git 
 
              sed -i '/#include <fcntl.h>/a __asm__(".symver fcntl64,fcntl@GLIBC_2.17");' io.c
-             sed -i '/#include <math.h>/a __asm__(".symver pow64,pow@GLIBC_2.17");' fftc.c
+             sed -i '/#include <math.h>/a __asm__(".symver pow64,pow@GLIBC_2.17");' fft.c
              sed -i '/#include <math.h>/a __asm__(".symver pow64,pow@GLIBC_2.17");' main.c
              sed -i '/#include <math.h>/a __asm__(".symver pow64,pow@GLIBC_2.17");' nc.c
              sed -i '/#include <math.h>/a __asm__(".symver pow64,pow@GLIBC_2.17");' gen.c
