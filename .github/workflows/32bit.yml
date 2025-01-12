@@ -1,0 +1,62 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. 
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "1 1 */7 * *"
+#   create:
+#     tags:
+#       - v*
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-20.04
+    name: Build on ${{ matrix.distro }} ${{ matrix.arch }}
+#     strategy:
+#       matrix:
+#         include:
+#           - arch: aarch64
+#             distro: ubuntu18.04
+    env:
+      CC: arm-linux-gnueabihf-gcc
+      CXX: arm-linux-gnueabihf-g++
+      LD: arm-linux-gnueabihf-ld
+      AR: arm-linux-gnueabihf-ar
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        with:
+         ref: master
+
+      # Runs a single command using the runners shell
+      - name: prepare
+        run: sudo apt update && sudo apt install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf texlive libssl-dev  libgmp-dev gettext autoconf pkg-config
+      - name: openssl
+        run: wget https://www.openssl.org/source/openssl-1.1.1t.tar.gz&&tar -xzvf openssl-1.1.1t.tar.gz&&cd openssl-1.1.1t &&./Configure linux-aarch64  --prefix=$HOME/local  &&make && make install && cd ..
+      - name: checkoutDnsmasq
+        run: git clone http://thekelleys.org.uk/git/dnsmasq.git dnsmasq.git
+      - name: checkoutHttping
+        run: git clone https://github.com/folkertvanheusden/HTTPing httping.git
+        
+      - name: patching-httping
+        run: |
+             cp httping_CMakeLists.txt httping.git/CMakeLists.txt 
+
+      - name: buildHttping
+        run:   cd httping.git&& mkdir build &&cd build &&cmake .. &&make && aarch64-linux-gnu-strip -s -x httping &&cp httping ../../httping 
+        
+      - name: dist
+        run: git status &&git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com" &&  git config --local user.name "github-actions[bot]" &&git add dnsmasq CHANGELOG httping &&git commit -m "update by bot"
+      - uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: master
+ #
