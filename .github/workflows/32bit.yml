@@ -24,10 +24,10 @@ jobs:
 #           - arch: aarch64
 #             distro: ubuntu18.04
     env:
-      CC: arm-linux-gnueabi-gcc
-      CXX: arm-linux-gnueabi-g++
-      LD: arm-linux-gnueabi-ld
-      AR: arm-linux-gnueabi-ar
+      CC: aarch64-linux-gnu-gcc
+      CXX: aarch64-linux-gnu-g++
+      LD: aarch64-linux-gnu-ld
+      AR: aarch64-linux-gnu-ar
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -38,13 +38,25 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: prepare
-        run: sudo apt update && sudo apt install gcc-arm-linux-gnueabi texlive libssl-dev  libgmp-dev gettext autoconf pkg-config
+        run: sudo apt update && sudo apt install gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi texlive libssl-dev  libgmp-dev gettext autoconf pkg-config
     #  - name: openssl
      #   run: wget https://www.openssl.org/source/openssl-1.1.1w.tar.gz&&tar -xzvf openssl-1.1.1w.tar.gz&&cd openssl-1.1.1w && ./Configure linux-armv4  --prefix=$HOME/local  &&make && make install && cd ..
       - name: checkoutDnsmasq
         run: git clone http://thekelleys.org.uk/git/dnsmasq.git dnsmasq.git
       - name: checkoutHttping
         run: git clone https://github.com/folkertvanheusden/HTTPing httping.git
+      - name: patching 
+        run: |
+             cd httping.git 
+
+             sed -i '/#include <fcntl.h>/a __asm__(".symver fcntl64,fcntl@GLIBC_2.17");' io.c
+             sed -i '/#include <math.h>/a __asm__(".symver pow64,pow@GLIBC_2.17");' fftc.c
+             sed -i '/#include <math.h>/a __asm__(".symver pow64,pow@GLIBC_2.17");' main.c
+             sed -i '/#include <math.h>/a __asm__(".symver pow64,pow@GLIBC_2.17");' nc.c
+             sed -i '/#include <math.h>/a __asm__(".symver pow64,pow@GLIBC_2.17");' gen.c
+       
+             cd ..
+               
         
       - name: patching-httping
         run: |
