@@ -24,10 +24,10 @@ jobs:
 #           - arch: aarch64
 #             distro: ubuntu18.04
     env:
-      CC: arm-linux-gnueabihf-gcc
-      CXX: arm-linux-gnueabihf-g++
-      LD: arm-linux-gnueabihf-ld
-      AR: arm-linux-gnueabihf-ar
+      CC: arm-linux-gnueabi-gcc
+      CXX: arm-linux-gnueabi-g++
+      LD: arm-linux-gnueabi-ld
+      AR: arm-linux-gnueabi-ar
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -38,7 +38,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: prepare
-        run: sudo apt update && sudo apt install gcc-arm-linux-gnueabihf texlive libssl-dev  libgmp-dev gettext autoconf pkg-config
+        run: sudo apt update && sudo apt install arm-linux-gnueabi texlive libssl-dev  libgmp-dev gettext autoconf pkg-config
       - name: openssl
         run: wget https://www.openssl.org/source/openssl-1.1.1w.tar.gz&&tar -xzvf openssl-1.1.1w.tar.gz&&cd openssl-1.1.1w && ./Configure linux-armv4  --prefix=$HOME/local  &&make && make install && cd ..
       - name: checkoutDnsmasq
