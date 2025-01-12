@@ -51,7 +51,7 @@ jobs:
              cp httping_CMakeLists.txt httping.git/CMakeLists.txt 
 
       - name: buildHttping
-        run:   cd httping.git&& mkdir build &&cd build &&cmake .. &&make && arm-linux-gnueabi-strip -s -x httping &&cp httping ../../httping 
+        run:   cd httping.git&& mkdir build &&cd build &&cmake .. -DNO_SSL=1 &&make && arm-linux-gnueabi-strip -s -x httping &&cp httping ../../httping 
         
       - name: dist
         run: git status &&git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com" &&  git config --local user.name "github-actions[bot]" &&git add dnsmasq CHANGELOG httping &&git commit -m "update by bot"
