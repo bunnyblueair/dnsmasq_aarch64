@@ -24,10 +24,10 @@ jobs:
 #           - arch: aarch64
 #             distro: ubuntu18.04
     env:
-      CC: arm-none-eabi-gcc
-      CXX: arm-none-eabi-g++
-      LD: arm-none-eabi-ld
-      AR: arm-none-eabi-ar
+      CC: arm-linux-gnueabihf-gcc
+      CXX: arm-linux-gnueabihf-g++
+      LD: arm-linux-gnueabihf-ld
+      AR: arm-linux-gnueabihf-ar
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -38,7 +38,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: prepare
-        run: sudo apt update && sudo apt install gcc-arm-none-eabi texlive libssl-dev  libgmp-dev gettext autoconf pkg-config
+        run: sudo apt update && sudo apt install arm-linux-gnueabihf-gcc texlive libssl-dev  libgmp-dev gettext autoconf pkg-config
       - name: openssl
         run: wget https://www.openssl.org/source/openssl-1.1.1w.tar.gz&&tar -xzvf openssl-1.1.1w.tar.gz&&cd openssl-1.1.1w && ./Configure linux-armv4  --prefix=$HOME/local  &&make && make install && cd ..
       - name: checkoutDnsmasq
@@ -51,7 +51,7 @@ jobs:
              cp httping_CMakeLists.txt httping.git/CMakeLists.txt 
 
       - name: buildHttping
-        run:   cd httping.git&& mkdir build &&cd build &&cmake .. &&make && gcc-arm-none-eabi-strip -s -x httping &&cp httping ../../httping 
+        run:   cd httping.git&& mkdir build &&cd build &&cmake .. &&make && arm-linux-gnueabihf-strip -s -x httping &&cp httping ../../httping 
         
       - name: dist
         run: git status &&git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com" &&  git config --local user.name "github-actions[bot]" &&git add dnsmasq CHANGELOG httping &&git commit -m "update by bot"
