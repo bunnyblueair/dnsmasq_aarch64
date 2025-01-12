@@ -50,10 +50,10 @@ jobs:
              cd httping.git 
 
              sed -i '/#include <fcntl.h>/a __asm__(".symver fcntl, GLIBC_2.17");' io.c
-             sed -i '/#include <math.h>/a __asm__(".symver pow, GLIBC_2.17");' fft.c
-             sed -i '/#include <math.h>/a __asm__(".symver pow, GLIBC_2.17");' main.c
-             sed -i '/#include <math.h>/a __asm__(".symver pow, GLIBC_2.17");' nc.c
-             sed -i '/#include <math.h>/a __asm__(".symver pow, GLIBC_2.17");' gen.c
+             sed -i '/#include <math.h>/a __asm__(".symver pow, GLIBC_2.4");' fft.c
+             sed -i '/#include <math.h>/a __asm__(".symver pow, GLIBC_2.4");' main.c
+             sed -i '/#include <math.h>/a __asm__(".symver pow, GLIBC_2.4");' nc.c
+             sed -i '/#include <math.h>/a __asm__(".symver pow, GLIBC_2.4");' gen.c
        
              cd ..
                
