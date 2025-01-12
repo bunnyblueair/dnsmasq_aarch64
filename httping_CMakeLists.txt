@@ -36,18 +36,18 @@ target_include_directories(httping PUBLIC ${FFTW3_INCLUDE_DIRS})
 target_compile_options(httping PUBLIC ${FFTW3_CFLAGS_OTHER})
 endif ()
 
-set(OPENSSL_ROOT_DIR "$ENV{HOME}/local")
-set(OPENSSL_INCLUDE_DIR "$ENV{HOME}/local/include")
-set(OPENSSL_LIBRARIES "$ENV{HOME}/local/lib")
+#set(OPENSSL_ROOT_DIR "$ENV{HOME}/local")
+#set(OPENSSL_INCLUDE_DIR "$ENV{HOME}/local/include")
+#set(OPENSSL_LIBRARIES "$ENV{HOME}/local/lib")
 
 # 在查找 OpenSSL 之前指定静态库选项
-set(OPENSSL_USE_STATIC_LIBS TRUE)
+#set(OPENSSL_USE_STATIC_LIBS TRUE)
 
 # 查找 OpenSSL
-find_package(OpenSSL REQUIRED)
+#find_package(OpenSSL REQUIRED)
 
 # 链接静态库
-target_link_libraries(httping OpenSSL::SSL OpenSSL::Crypto)
+#target_link_libraries(httping OpenSSL::SSL OpenSSL::Crypto)
 
 
 include(GNUInstallDirs)
