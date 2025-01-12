@@ -2,14 +2,7 @@
 
 name: CI-arm
 
-# Controls when the action will run. 
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: "1 1 */7 * *"
-#   create:
-#     tags:
-#       - v*
+
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
