@@ -2,7 +2,10 @@
 
 name: CI-arm
 
-
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "1 1 */7 * *"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -30,8 +33,6 @@ jobs:
          ref: master
 
       # Runs a single command using the runners shell
-      - name: prepare
-        run: sudo apt update && sudo apt install gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi texlive libssl-dev  libgmp-dev gettext autoconf pkg-config
       - name: checkoutHttping
         run: git clone https://github.com/folkertvanheusden/HTTPing httping.git
       - name: patching_glibc 
@@ -51,10 +52,13 @@ jobs:
       - name: patching-httping
         run: |
              cp httping_CMakeLists.txt httping.git/CMakeLists.txt 
+      - name: Use Ubuntu 18.04 Docker Image
+        run: |
+          docker run --rm -v $(pwd):/workspace -w /workspace ubuntu:18.04 bash -c "
+          apt-get update && apt-get install -y build-essential   gcc-linux-gnu texlive libssl-dev  libgmp-dev gettext autoconf pkg-config
+          cd httping.git&& mkdir build &&cd build &&cmake -DNO_SSL=1 ..  &&make   &&cp httping ../../httping 
+          "        
 
-      - name: buildHttping
-        run:   cd httping.git&& mkdir build &&cd build &&cmake -DNO_SSL=1 ..  &&make   &&cp httping ../../httping 
-        
       - name: dist
         run: git status &&git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com" &&  git config --local user.name "github-actions[bot]" &&git add dnsmasq CHANGELOG httping &&git commit -m "update by bot"
       - uses: ad-m/github-push-action@master
