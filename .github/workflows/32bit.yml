@@ -56,11 +56,7 @@ jobs:
         run: |
           docker run --rm -v $(pwd):/workspace -w /workspace  homebrew/ubuntu18.04 bash -c "
           apt-get update && apt-get install -y build-essential  libc6 gcc texlive libssl-dev  libgmp-dev gettext autoconf pkg-config cmake gcc-multilib g++-multilib  gcc-arm-linux-gnueabi
-          export CC=arm-linux-gnueabi-gcc
-          export CXX=arm-linux-gnueabi-g++
-          export LD=arm-linux-gnueabi-ld
-          export AR=arm-linux-gnueabi-ar
-          cd httping.git&& mkdir build &&cd build &&cmake -DNO_SSL=1 ..  &&make   &&cp httping ../../httping 
+          cd httping.git&& mkdir build &&cd build && CC=arm-linux-gnueabi-gcc CXX=arm-linux-gnueabi-g++ LD=arm-linux-gnueabi-ld AR=arm-linux-gnueabi-ar cmake -DNO_SSL=1 ..  &&make   &&cp httping ../../httping 
           "        
 
       - name: dist
