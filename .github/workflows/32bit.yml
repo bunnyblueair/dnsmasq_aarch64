@@ -56,11 +56,11 @@ jobs:
         run: |
           docker run --rm -v $(pwd):/workspace -w /workspace  homebrew/ubuntu18.04 bash -c "
           sudo apt-get update &&sudo apt-get install -y build-essential  libc6  texlive libssl-dev  libgmp-dev gettext autoconf pkg-config cmake   gcc-arm-linux-gnueabi
-          cd httping.git&& sudo mkdir build &&cd build &&sudo CC=arm-linux-gnueabi-gcc CXX=arm-linux-gnueabi-g++ LD=arm-linux-gnueabi-ld AR=arm-linux-gnueabi-ar cmake -DNO_SSL=1 ..  &&sudo make   &&sudo cp httping ../../httping 
+          cd httping.git&& sudo mkdir build &&cd build &&sudo CC=arm-linux-gnueabi-gcc CXX=arm-linux-gnueabi-g++ LD=arm-linux-gnueabi-ld AR=arm-linux-gnueabi-ar cmake -DNO_SSL=1 ..  &&sudo make  && sudo arm-linux-gnueabi-strip -s -x httping  &&sudo cp httping ../../httping 
           "        
 
       - name: dist
-        run: git status &&git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com" &&  git config --local user.name "github-actions[bot]" && strip -s -x httping  &&git add dnsmasq CHANGELOG httping &&git commit -m "update by bot"
+        run: git status &&git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com" &&  git config --local user.name "github-actions[bot]"   &&git add dnsmasq CHANGELOG httping &&git commit -m "update by bot"
       - uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
