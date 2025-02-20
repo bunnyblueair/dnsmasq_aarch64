@@ -49,9 +49,9 @@ jobs:
              cd ..
                
         
-      - name: patching-httping
-        run: |
-             cp httping_CMakeLists.txt httping.git/CMakeLists.txt 
+      # - name: patching-httping
+      #   run: |
+      #        cp httping_CMakeLists.txt httping.git/CMakeLists.txt 
       - name: Use Ubuntu 18.04 Docker Image
         run: |
           docker run --rm -v $(pwd):/workspace -w /workspace  homebrew/ubuntu18.04 bash -c "
