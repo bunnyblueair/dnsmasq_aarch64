@@ -65,7 +65,7 @@ jobs:
           export CXX=arm-linux-gnueabi-g++ 
           export LD=arm-linux-gnueabi-ld 
           export AR=arm-linux-gnueabi-ar
-          unzip nettle-nettle_3.10.1_release_20241230.zip && cd nettle-nettle_3.10.1_release_20241230 &&./.bootstrap && ./configure --enable-mini-gmp --disable-documentation --host=aarch64-linux-gnu &&make &&sudo make install && cd .. &&chmod +x build.sh &&sudo ./build.sh
+          sudo unzip nettle-nettle_3.10.1_release_20241230.zip &&sudo cd nettle-nettle_3.10.1_release_20241230 &&sudo ./.bootstrap &&sudo  ./configure --enable-mini-gmp --disable-documentation --host=aarch64-linux-gnu &&make &&sudo make install && cd .. &&chmod +x build.sh &&sudo ./build.sh
           "        
 
  
