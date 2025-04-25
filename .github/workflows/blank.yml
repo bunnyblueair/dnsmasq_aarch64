@@ -16,7 +16,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     name: Build on ${{ matrix.distro }} ${{ matrix.arch }}
 #     strategy:
 #       matrix:
@@ -55,13 +55,25 @@ jobs:
              cd ..
              
 
+      - name: Use Ubuntu 18.04 Docker Image
+        run: |
+          docker run --rm -v $(pwd):/workspace -w /workspace  homebrew/ubuntu18.04 bash -c "
+          sudo apt-get update
+          sudo apt update
+          sudo apt-get update &&sudo apt-get install -y build-essential  libc6  texlive libssl-dev  libgmp-dev gettext autoconf pkg-config cmake   gcc-arm-linux-gnueabi
+          export CC=arm-linux-gnueabi-gcc 
+          export CXX=arm-linux-gnueabi-g++ 
+          export LD=arm-linux-gnueabi-ld 
+          export AR=arm-linux-gnueabi-ar
+          unzip nettle-nettle_3.10.1_release_20241230.zip && cd nettle-nettle_3.10.1_release_20241230 &&./.bootstrap && ./configure --enable-mini-gmp --disable-documentation --host=aarch64-linux-gnu &&make &&sudo make install && cd .. &&chmod +x build.sh &&sudo ./build.sh
+          "        
 
  
       # Runs a set of commands using the runners shell
-      - name: loadFile
-        run:  unzip nettle-nettle_3.10.1_release_20241230.zip && cd nettle-nettle_3.10.1_release_20241230 &&./.bootstrap && ./configure --enable-mini-gmp --disable-documentation --host=aarch64-linux-gnu &&make &&sudo make install && cd ..
-      - name: build
-        run: chmod +x build.sh &&./build.sh
+      # - name: loadFile
+      #   run:  unzip nettle-nettle_3.10.1_release_20241230.zip && cd nettle-nettle_3.10.1_release_20241230 &&./.bootstrap && ./configure --enable-mini-gmp --disable-documentation --host=aarch64-linux-gnu &&make &&sudo make install && cd ..
+      # - name: build
+      #   run: chmod +x build.sh &&./build.sh
 
       - name: dist
         run: git status &&git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com" &&  git config --local user.name "github-actions[bot]" &&git add dnsmasq CHANGELOG httping &&git commit -m "update by bot"
