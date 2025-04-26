@@ -63,8 +63,8 @@ jobs:
           sudo unzip nettle-nettle_3.10.1_release_20241230.zip && ls
           cd nettle-nettle_3.10.1_release_20241230 
           sudo bash .bootstrap 
-          sudo  bash configure --enable-mini-gmp --disable-documentation --host=aarch64-linux-gnu 
-          sudo make
+          sudo CC=arm-linux-gnueabi-gcc CXX=arm-linux-gnueabi-g++ LD=arm-linux-gnueabi-ld AR=arm-linux-gnueabi-ar bash configure --enable-mini-gmp --disable-documentation --host=aarch64-linux-gnu 
+          sudoCC=arm-linux-gnueabi-gcc CXX=arm-linux-gnueabi-g++ LD=arm-linux-gnueabi-ld AR=arm-linux-gnueabi-ar  make
           sudo make install && cd .. &&sudo chmod +x build.sh
           sudo bash build.sh
           "        
