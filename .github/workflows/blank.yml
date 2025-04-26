@@ -65,7 +65,8 @@ jobs:
           sudo bash .bootstrap 
           sudo  bash configure --enable-mini-gmp --disable-documentation --host=aarch64-linux-gnu 
           sudo make
-          sudo make install && cd .. &&chmod +x build.sh &&sudo bash build.sh
+          sudo make install && cd .. &&sudo chmod +x build.sh
+          sudo bash build.sh
           "        
 
  
