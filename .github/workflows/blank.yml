@@ -42,11 +42,10 @@ jobs:
           export AR=aarch64-linux-gnu-ar
           
           unzip nettle-nettle_3.10.1_release_20241230.zip
-          ls nettle-nettle_3.10.1_release_20241230
           cd nettle-nettle_3.10.1_release_20241230 && autoreconf -i   && ./configure --enable-mini-gmp --disable-documentation --host=aarch64-linux-gnu
           make -j\$(nproc)
           make install
-          cd ..
+          cd .. && ls
 
           chmod +x build.sh
           ./build.sh
