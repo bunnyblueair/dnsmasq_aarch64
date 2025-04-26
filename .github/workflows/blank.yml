@@ -60,8 +60,8 @@ jobs:
           export CXX=aarch64-linux-gnu-g++
           export LD=aarch64-linux-gnu-ld
           export AR=aarch64-linux-gnu-ar
-          sudo unzip nettle-nettle_3.10.1_release_20241230.zip
-          sudo cd nettle-nettle_3.10.1_release_20241230 
+          sudo unzip nettle-nettle_3.10.1_release_20241230.zip && ls
+          cd nettle-nettle_3.10.1_release_20241230 
           sudo bash .bootstrap 
           sudo  bash configure --enable-mini-gmp --disable-documentation --host=aarch64-linux-gnu 
           sudo make
