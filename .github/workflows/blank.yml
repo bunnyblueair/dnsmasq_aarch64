@@ -45,7 +45,8 @@ jobs:
           cd nettle-nettle_3.10.1_release_20241230 && autoreconf -i   && ./configure --enable-mini-gmp --disable-documentation --host=aarch64-linux-gnu
           make -j\$(nproc)
           make install
-          cd .. && ls
+          file /usr/local/lib/libnettle.a 
+          cd .. 
 
           chmod +x build.sh
           ./build.sh
