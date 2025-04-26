@@ -1,85 +1,66 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
 
-# Controls when the action will run. 
 on:
   workflow_dispatch:
   schedule:
     - cron: "1 1 */7 * *"
-#   create:
-#     tags:
-#       - v*
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-24.04
-    name: Build on ${{ matrix.distro }} ${{ matrix.arch }}
-#     strategy:
-#       matrix:
-#         include:
-#           - arch: aarch64
-#             distro: ubuntu18.04
+    name: Cross Build for aarch64
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
         with:
-         ref: master
+          ref: master
 
-      # Runs a single command using the runners shell
-      - name: prepare
-        run: sudo apt update && sudo apt install gcc-aarch64-linux-gnu texlive libssl-dev  libgmp-dev gettext autoconf pkg-config
-      - name: checkoutDnsmasq
+      - name: Install Dependencies
+        run: sudo apt-get update && sudo apt-get install -y gcc-aarch64-linux-gnu texlive libssl-dev libgmp-dev gettext autoconf pkg-config zip unzip
+
+      - name: Clone dnsmasq
         run: git clone http://thekelleys.org.uk/git/dnsmasq.git dnsmasq.git
 
-        
-     
-      - name: patching 
+      - name: Apply Patches
         run: |
-             cd dnsmasq.git 
+          cd dnsmasq.git
+          sed -i '/#include <sys\/stat.h>/a __asm__(".symver stat64,__xstat64@GLIBC_2.17");' src/dnsmasq.h
+          sed -i '/#include <fcntl.h>/a __asm__(".symver fcntl64,fcntl@GLIBC_2.17");' src/dnsmasq.h
+          sed -i '/#include <fcntl.h>/a __asm__(".symver fcntl64,fcntl@GLIBC_2.17");' src/tables.c
+          cd ..
 
-             sed -i '/#include <sys\/stat.h>/a __asm__(".symver stat64,__xstat64@GLIBC_2.17");' src/dnsmasq.h
-             sed -i '/#include <fcntl.h>/a __asm__(".symver fcntl64,fcntl@GLIBC_2.17");' src/dnsmasq.h
-             sed -i '/#include <fcntl.h>/a __asm__(".symver fcntl64,fcntl@GLIBC_2.17");' src/tables.c
-       
-             cd ..
-             
-
-      - name: Use Ubuntu 18.04 Docker Image
+      - name: Cross Compile in Docker
         run: |
-          docker run --rm -v $(pwd):/workspace -w /workspace  homebrew/ubuntu18.04 bash -c "
-          sudo apt-get update
-          sudo apt update
-          sudo apt-get update &&sudo apt-get install -y build-essential  libc6  texlive libssl-dev  libgmp-dev gettext autoconf pkg-config cmake    gcc-aarch64-linux-gnu
+          docker run --rm -v $PWD:/workspace -w /workspace ubuntu:18.04 bash -c "
+          apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            build-essential gcc-aarch64-linux-gnu texlive libssl-dev libgmp-dev \
+            gettext autoconf pkg-config cmake unzip wget
+
           export CC=aarch64-linux-gnu-gcc
           export CXX=aarch64-linux-gnu-g++
           export LD=aarch64-linux-gnu-ld
           export AR=aarch64-linux-gnu-ar
-          sudo unzip nettle-nettle_3.10.1_release_20241230.zip && ls
-          cd nettle-nettle_3.10.1_release_20241230 
-          sudo bash .bootstrap 
-          sudo CC=arm-linux-gnueabi-gcc CXX=arm-linux-gnueabi-g++ LD=arm-linux-gnueabi-ld AR=arm-linux-gnueabi-ar bash configure --enable-mini-gmp --disable-documentation --host=aarch64-linux-gnu 
-          sudoCC=arm-linux-gnueabi-gcc CXX=arm-linux-gnueabi-g++ LD=arm-linux-gnueabi-ld AR=arm-linux-gnueabi-ar  make
-          sudo make install && cd .. &&sudo chmod +x build.sh
-          sudo bash build.sh
-          "        
 
- 
-      # Runs a set of commands using the runners shell
-      # - name: loadFile
-      #   run:  unzip nettle-nettle_3.10.1_release_20241230.zip && cd nettle-nettle_3.10.1_release_20241230 &&./.bootstrap && ./configure --enable-mini-gmp --disable-documentation --host=aarch64-linux-gnu &&make &&sudo make install && cd ..
-      # - name: build
-      #   run: chmod +x build.sh &&./build.sh
+          unzip nettle-nettle_3.10.1_release_20241230.zip
+          cd nettle-nettle_3.10.1_release_20241230
+          ./configure --enable-mini-gmp --disable-documentation --host=aarch64-linux-gnu
+          make -j\$(nproc)
+          make install
+          cd ..
 
-      - name: dist
-        run: git status &&git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com" &&  git config --local user.name "github-actions[bot]" &&git add dnsmasq CHANGELOG httping &&git commit -m "update by bot"
+          chmod +x build.sh
+          ./build.sh
+          "
+
+      - name: Commit & Push Artifacts
+        run: |
+          git status
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add dnsmasq CHANGELOG httping || true
+          git commit -m "update by bot" || echo "Nothing to commit"
+
       - uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: master
- #
