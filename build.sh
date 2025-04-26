@@ -1,4 +1,5 @@
 cd dnsmasq.git 
+git config --global --add safe.directory /workspace/dnsmasq.git
  mydir=$(pwd)
 ver=$(git describe | sed 's/^v//')
 
