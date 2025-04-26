@@ -1,8 +1,8 @@
 cd dnsmasq.git 
-
+ mydir=$(pwd)
 ver=$(git describe | sed 's/^v//')
 
-echo "======$ver"
+echo "======ver=$ver dir=$mydir"
 
 make COPTS="-DHAVE_IPSET -DHAVE_BROKEN_RTC -DHAVE_AUTH -DNO_TFTP -DNO_ID -DHAVE_LOOP -DNO_INOTIFY -DNO_DUMPFILE -DNO_GMP -DHAVE_DNSSEC" \
      CFLAGS="-I/usr/local/include -DVERSION=\\\"$ver\\\""
