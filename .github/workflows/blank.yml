@@ -62,7 +62,10 @@ jobs:
           export AR=aarch64-linux-gnu-ar
           sudo unzip nettle-nettle_3.10.1_release_20241230.zip
           sudo cd nettle-nettle_3.10.1_release_20241230 
-          echo 'bootstrap....' &&sudo ./.bootstrap &&sudo  ./configure --enable-mini-gmp --disable-documentation --host=aarch64-linux-gnu &&make &&sudo make install && cd .. &&chmod +x build.sh &&sudo ./build.sh
+          sudo bash .bootstrap 
+          sudo  bash configure --enable-mini-gmp --disable-documentation --host=aarch64-linux-gnu 
+          sudo make
+          sudo make install && cd .. &&chmod +x build.sh &&sudo bash build.sh
           "        
 
  
