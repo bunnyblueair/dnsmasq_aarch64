@@ -34,7 +34,7 @@ jobs:
           docker run --rm -v $PWD:/workspace -w /workspace ubuntu:18.04 bash -c "
           apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
             build-essential gcc-aarch64-linux-gnu texlive libssl-dev libgmp-dev  \
-            gettext autoconf pkg-config cmake unzip wget
+            gettext autoconf pkg-config cmake unzip wget git
 
           export CC=aarch64-linux-gnu-gcc
           export CXX=aarch64-linux-gnu-g++
