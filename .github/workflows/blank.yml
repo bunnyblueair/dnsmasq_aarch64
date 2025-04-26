@@ -15,8 +15,8 @@ jobs:
         with:
           ref: master
 
-      - name: Install Dependencies
-        run: sudo apt-get update && sudo apt-get install -y gcc-aarch64-linux-gnu texlive libssl-dev libgmp-dev gettext autoconf pkg-config zip unzip
+      # - name: Install Dependencies
+      #   run: sudo apt-get update && sudo apt-get install -y gcc-aarch64-linux-gnu texlive libssl-dev libgmp-dev gettext autoconf pkg-config zip unzip
 
       - name: Clone dnsmasq
         run: git clone http://thekelleys.org.uk/git/dnsmasq.git dnsmasq.git
